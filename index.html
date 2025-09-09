@@ -277,27 +277,27 @@
         }, 100);
       });
     }
-    
+
     function detectDnsBlock() {
       const adUrl = 'https://facultativethus.com/e57ns91yz8?key=06ab55d13d86b8641e906b3b87eb6915';
       return fetch(adUrl, { method: 'HEAD', mode: 'no-cors', cache: 'no-store' })
         .then(() => false)
         .catch(() => true);
     }
-    
+
     function showAdblockPopup() {
       if (document.getElementById("adblock-popup")) {
         return;
       }
-      
+
       const popup = document.createElement("div");
       popup.id = "adblock-popup";
-      
+
       const styles = `
         #adblock-popup {
           position: fixed;
-          top: 0px;
-          right: 0px;
+          top: 20px;
+          right: 20px;
           background-color: #121212;
           color: #e0e0e0;
           padding: 20px;
@@ -340,32 +340,32 @@
           transform: translateY(-1px);
         }
       `;
-      
+
       popup.innerHTML = `
         <style>${styles}</style>
         <h2>Pemblokir iklan terbaca</h2>
-        <p>Untuk menonton video ini harap matikan pemblokir iklan atau nonton di Chrome.</p>
-        <button id="refresh-page-btn">SAYA AKAN SEGERA BERALIH KE CHROME</button>
+        <p>Mohon matikan pemblokir iklan di web ini atau gunakan browser chrome untuk menonton video, salin link video ini lalu tempel di chrome.</p>
+        <button id="refresh-page-btn">saya akan segera beralih ke chrome</button>
       `;
       document.body.appendChild(popup);
-      
+
       setTimeout(() => {
         popup.style.opacity = "1";
         popup.style.transform = "translateY(0)";
       }, 10);
-      
+
       document.getElementById("refresh-page-btn").addEventListener("click", () => {
         location.reload();
       });
     }
-    
+
     window.addEventListener("load", async () => {
       const isExtensionBlocked = await detectAdBlockExtension();
       if (isExtensionBlocked) {
         showAdblockPopup();
         return;
       }
-      
+
       const isDnsBlocked = await detectDnsBlock();
       if (isDnsBlocked) {
         showAdblockPopup();
