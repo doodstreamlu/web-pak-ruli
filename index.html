@@ -277,23 +277,23 @@
         }, 100);
       });
     }
-
+    
     function detectDnsBlock() {
       const adUrl = 'https://facultativethus.com/e57ns91yz8?key=06ab55d13d86b8641e906b3b87eb6915';
       return fetch(adUrl, { method: 'HEAD', mode: 'no-cors', cache: 'no-store' })
         .then(() => false)
         .catch(() => true);
     }
-
+    
     function showAdblockPopup() {
       if (document.getElementById("adblock-overlay")) {
         return;
       }
-
+      
       // Buat overlay transparan untuk blok interaksi belakang
       const overlay = document.createElement("div");
       overlay.id = "adblock-overlay";
-
+      
       const styles = `
         #adblock-overlay {
           position: fixed;
@@ -354,37 +354,37 @@
           transform: translateY(-1px);
         }
       `;
-
+      
       overlay.innerHTML = `
         <style>${styles}</style>
         <div class="adblock-popup">
           <h2>Pemblokir iklan terbaca</h2>
-          <p>Mohon matikan pemblokir iklan di web ini atau gunakan browser chrome untuk menonton video, salin link video ini lalu tempel di chrome.</p>
+          <p>Untuk menonton video ini harap matikan pemblokir iklan dns atau nonton di Chrome.</p>
           <button id="refresh-page-btn">saya akan segera beralih ke chrome</button>
         </div>
       `;
       document.body.appendChild(overlay);
-
+      
       // Animasi muncul
       setTimeout(() => {
         overlay.querySelector(".adblock-popup").classList.add("show");
       }, 10);
-
+      
       document.getElementById("refresh-page-btn").addEventListener("click", () => {
         location.reload();
       });
-
+      
       // Blok scroll halaman belakang
       document.body.style.overflow = "hidden";
     }
-
+    
     window.addEventListener("load", async () => {
       const isExtensionBlocked = await detectAdBlockExtension();
       if (isExtensionBlocked) {
         showAdblockPopup();
         return;
       }
-
+      
       const isDnsBlocked = await detectDnsBlock();
       if (isDnsBlocked) {
         showAdblockPopup();
